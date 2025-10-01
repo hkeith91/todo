@@ -44,3 +44,20 @@ class TodoItem:
         def __repr__(self):
             status = "COMPLETE" if self.is_complete else "NOT complete"
             return f"{status} {self.todo_id} | {self.description} (Due: {self.due_date or 'N/A'})"
+
+    def __eq__(self, other):
+        if not isinstance(other, TodoItem):
+            return NotImplemented
+        return (
+            self.todo_id == other.todo_id
+            and self.is_complete == other.is_complete
+            and self.due_date == other.due_date
+            and self.due_time == other.due_time
+            and self.past_due == other.past_due
+            and self.priority == other.priority
+            and self.recurring == other.recurring
+            and self.frequency == other.frequency
+        )
+
+    def __hash__(self):
+        return hash(self.todo_id)
