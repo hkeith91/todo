@@ -69,5 +69,18 @@ def test_todo_list_initializes_to_empty():
     assert len(manager.todo_list) == 0
 
 
-def test_get_all_contacts(todo_dummy_list):
-    pass
+def test_get_all_todo_items(todo_test_data: List[TodoItem]):
+    manager = TodoManager()
+    todo_list_to_test = manager.todo_list
+    todo_list_to_test = todo_test_data
+
+    # Sort both lists by id
+    test_sort_key = lambda item: item.todo_id
+    todo_list_to_test.sort(key=test_sort_key)
+    todo_test_data.sort(key=test_sort_key)
+
+    assert isinstance(todo_list_to_test, List)
+    assert all(isinstance(item, TodoItem) for item in todo_list_to_test)
+    # Separate check for length for additional info
+    assert len(manager.get_all_todo_items()) == len(todo_test_data)
+    assert todo_list_to_test == todo_test_data
