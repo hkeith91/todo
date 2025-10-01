@@ -30,7 +30,7 @@ def todo_test_data() -> List[TodoItem]:
             is_complete=True,
             priority=3,
             recurring=True,
-            frequency=1,
+            frequency="D",
         ),
         # Urgent (Level 1), past due date/time (assuming today is Oct 1st)
         TodoItem(
@@ -47,7 +47,7 @@ def todo_test_data() -> List[TodoItem]:
             due_date=date(2025, 11, 1),
             priority=1,
             recurring=True,
-            frequency=30,
+            frequency="M",
         ),
         # Completed item, past date, default priority (None)
         TodoItem(

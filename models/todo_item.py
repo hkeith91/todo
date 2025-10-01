@@ -29,7 +29,7 @@ class TodoItem:
         past_due: bool = False,
         priority: Optional[int] = None,
         recurring: bool = False,
-        frequency: Optional[int] = None,
+        frequency: Optional[str] = None,
     ):
         self.todo_id = str(uuid.uuid4())
         self.description = description
