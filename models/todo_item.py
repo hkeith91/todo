@@ -1,8 +1,7 @@
 from typing import Optional
 import uuid
 from enum import Enum
-from datetime import date
-from datetime import time
+from datetime import date, time
 
 
 class Frequencies(Enum):
@@ -32,7 +31,9 @@ class TodoItem:
     ):
         self.todo_id = str(uuid.uuid4())
         self.description = description
+        self.is_complete = is_complete
         self.due_date = due_date
+        self.due_time = due_time
         self.priority = priority
         self.recurring = recurring
         self.frequency = frequency
