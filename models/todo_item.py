@@ -40,3 +40,7 @@ class TodoItem:
         self.priority = priority
         self.recurring = recurring
         self.frequency = frequency
+
+        def __repr__(self):
+            status = "COMPLETE" if self.is_complete else "NOT complete"
+            return f"{status} {self.todo_id} | {self.description} (Due: {self.due_date or 'N/A'})"
