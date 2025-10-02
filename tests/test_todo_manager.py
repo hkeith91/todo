@@ -1,23 +1,25 @@
 import pytest
+import uuid
 from controllers.todo_manager import TodoManager
 from models.todo_item import TodoItem
 from typing import List
 from datetime import date, time
 
 
+# TODO: Add test to ensure each id is unique
 @pytest.fixture
 def todo_test_data() -> List[TodoItem]:
     return [
         # Has date and priority (Level 2), not complete
         TodoItem(
-            todo_id="str(uuid.uuid4())",
+            todo_id=str(uuid.uuid4()),
             description="Buy milk and eggs",
             due_date=date(2025, 10, 5),
             priority=2,
         ),
         # Highest priority (Level 1), specific due date AND time
         TodoItem(
-            todo_id="str(uuid.uuid4())",
+            todo_id=str(uuid.uuid4()),
             description="Finish Python Project",
             due_date=date(2025, 10, 3),
             due_time=time(17, 0, 0),  # 5:00 PM
@@ -25,7 +27,7 @@ def todo_test_data() -> List[TodoItem]:
         ),
         # Recurring daily (frequency=1), marked complete, no date/time
         TodoItem(
-            todo_id="str(uuid.uuid4())",
+            todo_id=str(uuid.uuid4()),
             description="Check email",
             is_complete=True,
             priority=3,
@@ -34,7 +36,7 @@ def todo_test_data() -> List[TodoItem]:
         ),
         # Urgent (Level 1), past due date/time (assuming today is Oct 1st)
         TodoItem(
-            todo_id="str(uuid.uuid4())",
+            todo_id=str(uuid.uuid4()),
             description="Call doctor's office",
             due_date=date(2025, 10, 1),
             due_time=time(10, 30, 0),
@@ -42,7 +44,7 @@ def todo_test_data() -> List[TodoItem]:
         ),
         # Recurring monthly (frequency=30), high priority (Level 1)
         TodoItem(
-            todo_id="str(uuid.uuid4())",
+            todo_id=str(uuid.uuid4()),
             description="Pay rent",
             due_date=date(2025, 11, 1),
             priority=1,
@@ -51,14 +53,14 @@ def todo_test_data() -> List[TodoItem]:
         ),
         # Completed item, past date, default priority (None)
         TodoItem(
-            todo_id="str(uuid.uuid4())",
+            todo_id=str(uuid.uuid4()),
             description="Review presentation",
             is_complete=True,
             due_date=date(2025, 9, 28),
         ),
         # Minimalist item, all optionals are None/default
         TodoItem(
-            todo_id="str(uuid.uuid4())",
+            todo_id=str(uuid.uuid4()),
             description="Take out trash",
         ),
     ]
@@ -83,3 +85,13 @@ def test_get_all_todo_items(todo_test_data: List[TodoItem]):
     # Separate check for length for additional info
     assert len(todo_list_to_test) == len(todo_test_data)
     assert todo_list_to_test == todo_test_data
+
+
+def test_get_contact_by_id(todo_test_data: List[TodoItem]):
+    manager = TodoManager()
+    manager.todo_list = todo_test_data
+    test_todo_item = todo_test_data[0]
+    todo_item_to_test = manager.get_todo_by_id(test_todo_item.todo_id)
+
+    assert isinstance(todo_item_to_test, TodoItem)
+    assert todo_item_to_test == test_todo_item
