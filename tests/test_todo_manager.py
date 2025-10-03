@@ -115,7 +115,7 @@ def test_get_all_todo_items_returns_correct_content(todo_test_data: List[TodoIte
     assert todo_list_to_test == todo_test_data
 
 
-def test_get_contact_by_id_returns_todo_item_object(todo_test_data: List[TodoItem]):
+def test_get_todo_item_by_id_returns_todo_item_object(todo_test_data: List[TodoItem]):
     """Asserts return type is instance of TodoItem object"""
     manager = TodoManager()
     manager.todo_list = todo_test_data
