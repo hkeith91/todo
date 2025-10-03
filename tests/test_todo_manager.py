@@ -67,13 +67,16 @@ def todo_test_data() -> List[TodoItem]:
 
 
 def test_todo_list_initializes_to_empty():
-    """Asserts that the TodoManager instance's in memory todo list initializes to an empty list"""
+    """
+    Asserts that the TodoManager instance's in memory todo list initializes to an empty list
+    """
     manager = TodoManager()
 
     assert len(manager.todo_list) == 0
 
 
 def test_get_all_todo_items_returns_list(todo_test_data: List[TodoItem]):
+    """Asserts that a List object is the return value"""
     manager = TodoManager()
     manager.todo_list = todo_test_data
     todo_list_to_test = manager.get_all_todo_items()
@@ -82,6 +85,7 @@ def test_get_all_todo_items_returns_list(todo_test_data: List[TodoItem]):
 
 
 def test_get_all_todo_items_returns_todo_item_objects(todo_test_data: List[TodoItem]):
+    """Asserts that returned List items are all instances of TodoItem objects"""
     manager = TodoManager()
     manager.todo_list = todo_test_data
     todo_list_to_test = manager.get_all_todo_items()
@@ -90,6 +94,7 @@ def test_get_all_todo_items_returns_todo_item_objects(todo_test_data: List[TodoI
 
 
 def test_get_all_todo_items_returns_correct_count(todo_test_data: List[TodoItem]):
+    """Asserts the returned List object contains the correct number or elements"""
     manager = TodoManager()
     manager.todo_list = todo_test_data
     todo_list_to_test = manager.get_all_todo_items()
@@ -98,6 +103,7 @@ def test_get_all_todo_items_returns_correct_count(todo_test_data: List[TodoItem]
 
 
 def test_get_all_todo_items_returns_correct_content(todo_test_data: List[TodoItem]):
+    """Asserts all elements in returned List are the correct elements"""
     manager = TodoManager()
     manager.todo_list = todo_test_data
     todo_list_to_test = manager.get_all_todo_items()
@@ -110,6 +116,7 @@ def test_get_all_todo_items_returns_correct_content(todo_test_data: List[TodoIte
 
 
 def test_get_contact_by_id_returns_todo_item_object(todo_test_data: List[TodoItem]):
+    """Asserts return type is instance of TodoItem object"""
     manager = TodoManager()
     manager.todo_list = todo_test_data
     test_todo_item = todo_test_data[0]
@@ -119,6 +126,7 @@ def test_get_contact_by_id_returns_todo_item_object(todo_test_data: List[TodoIte
 
 
 def test_get_todo_item_by_id_returns_correct_object(todo_test_data: List[TodoItem]):
+    """Asserts the correct TodoItem is returned"""
     manager = TodoManager()
     manager.todo_list = todo_test_data
     test_todo_item = todo_test_data[0]
