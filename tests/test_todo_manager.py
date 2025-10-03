@@ -67,11 +67,37 @@ def todo_test_data() -> List[TodoItem]:
 
 
 def test_todo_list_initializes_to_empty():
+    """Asserts that the TodoManager instance's in memory todo list initializes to an empty list"""
     manager = TodoManager()
+
     assert len(manager.todo_list) == 0
 
 
-def test_get_all_todo_items(todo_test_data: List[TodoItem]):
+def test_get_all_todo_items_returns_list(todo_test_data: List[TodoItem]):
+    manager = TodoManager()
+    manager.todo_list = todo_test_data
+    todo_list_to_test = manager.get_all_todo_items()
+
+    assert isinstance(todo_list_to_test, List)
+
+
+def test_get_all_todo_items_returns_todo_item_objects(todo_test_data: List[TodoItem]):
+    manager = TodoManager()
+    manager.todo_list = todo_test_data
+    todo_list_to_test = manager.get_all_todo_items()
+
+    assert all(isinstance(item, TodoItem) for item in todo_list_to_test)
+
+
+def test_get_all_todo_items_returns_correct_count(todo_test_data: List[TodoItem]):
+    manager = TodoManager()
+    manager.todo_list = todo_test_data
+    todo_list_to_test = manager.get_all_todo_items()
+
+    assert len(todo_list_to_test) == len(todo_test_data)
+
+
+def test_get_all_todo_items_returns_correct_content(todo_test_data: List[TodoItem]):
     manager = TodoManager()
     manager.todo_list = todo_test_data
     todo_list_to_test = manager.get_all_todo_items()
@@ -80,18 +106,22 @@ def test_get_all_todo_items(todo_test_data: List[TodoItem]):
     todo_list_to_test.sort(key=test_sort_key)
     todo_test_data.sort(key=test_sort_key)
 
-    assert isinstance(todo_list_to_test, List)
-    assert all(isinstance(item, TodoItem) for item in todo_list_to_test)
-    # Separate check for length for additional info
-    assert len(todo_list_to_test) == len(todo_test_data)
     assert todo_list_to_test == todo_test_data
 
 
-def test_get_contact_by_id(todo_test_data: List[TodoItem]):
+def test_get_contact_by_id_returns_todo_item_object(todo_test_data: List[TodoItem]):
     manager = TodoManager()
     manager.todo_list = todo_test_data
     test_todo_item = todo_test_data[0]
     todo_item_to_test = manager.get_todo_by_id(test_todo_item.todo_id)
 
     assert isinstance(todo_item_to_test, TodoItem)
+
+
+def test_get_todo_item_by_id_returns_correct_object(todo_test_data: List[TodoItem]):
+    manager = TodoManager()
+    manager.todo_list = todo_test_data
+    test_todo_item = todo_test_data[0]
+    todo_item_to_test = manager.get_todo_by_id(test_todo_item.todo_id)
+
     assert todo_item_to_test == test_todo_item
