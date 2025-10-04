@@ -7,6 +7,8 @@ from datetime import date, time
 
 
 # TODO: Add test to ensure each id is unique
+
+
 @pytest.fixture
 def todo_test_data() -> List[TodoItem]:
     return [
@@ -143,6 +145,10 @@ def test_get_todo_item_by_id_returns_correct_object(todo_test_data: List[TodoIte
 
 
 def test_get_todo_item_by_id_returns_none_from_empty_manager():
+    """
+    Asserts return type will be None when searching for ID in an empty
+    TodoManager.todo_list
+    """
     manager = TodoManager()
 
     assert manager.get_todo_item_by_id("Any_ID") is None
@@ -151,6 +157,10 @@ def test_get_todo_item_by_id_returns_none_from_empty_manager():
 def test_get_todo_item_by_id_returns_none_when_id_non_exists(
     todo_test_data: List[TodoItem],
 ):
+    """
+    Asserts return type will be None when searching for
+    a non-existent ID
+    """
     manager = TodoManager()
     manager.todo_list = todo_test_data
 
