@@ -74,6 +74,8 @@ def test_todo_list_initializes_to_empty():
 
     assert len(manager.todo_list) == 0
 
+def test_empty_manager_returns_emp
+
 
 def test_get_all_todo_items_returns_list(todo_test_data: List[TodoItem]):
     """Asserts that a List object is the return value"""
@@ -120,7 +122,7 @@ def test_get_todo_item_by_id_returns_todo_item_object(todo_test_data: List[TodoI
     manager = TodoManager()
     manager.todo_list = todo_test_data
     test_todo_item = todo_test_data[0]
-    todo_item_to_test = manager.get_todo_by_id(test_todo_item.todo_id)
+    todo_item_to_test = manager.get_todo_item_by_id(test_todo_item.todo_id)
 
     assert isinstance(todo_item_to_test, TodoItem)
 
@@ -130,6 +132,6 @@ def test_get_todo_item_by_id_returns_correct_object(todo_test_data: List[TodoIte
     manager = TodoManager()
     manager.todo_list = todo_test_data
     test_todo_item = todo_test_data[0]
-    todo_item_to_test = manager.get_todo_by_id(test_todo_item.todo_id)
+    todo_item_to_test = manager.get_todo_item_by_id(test_todo_item.todo_id)
 
     assert todo_item_to_test == test_todo_item
