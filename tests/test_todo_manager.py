@@ -74,7 +74,12 @@ def test_todo_list_initializes_to_empty():
 
     assert len(manager.todo_list) == 0
 
-def test_empty_manager_returns_emp
+
+def test_empty_manager_returns_empty_list():
+    """Asserts an empty list is returned when TodoManager.todo_list is empty"""
+    manager = TodoManager()
+
+    assert manager.todo_list == []
 
 
 def test_get_all_todo_items_returns_list(todo_test_data: List[TodoItem]):
@@ -135,3 +140,9 @@ def test_get_todo_item_by_id_returns_correct_object(todo_test_data: List[TodoIte
     todo_item_to_test = manager.get_todo_item_by_id(test_todo_item.todo_id)
 
     assert todo_item_to_test == test_todo_item
+
+
+def test_get_todo_item_by_id_returns_none_from_empty_manager():
+    manager = TodoManager()
+
+    assert manager.get_todo_item_by_id("Any_ID") is None
