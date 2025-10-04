@@ -146,3 +146,15 @@ def test_get_todo_item_by_id_returns_none_from_empty_manager():
     manager = TodoManager()
 
     assert manager.get_todo_item_by_id("Any_ID") is None
+
+
+def test_get_todo_item_by_id_returns_none_when_id_non_exists(
+    todo_test_data: List[TodoItem],
+):
+    manager = TodoManager()
+    manager.todo_list = todo_test_data
+
+    non_existent_id = "Does not exist"
+    item_to_test = manager.get_todo_item_by_id(non_existent_id)
+
+    assert item_to_test is None
