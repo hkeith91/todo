@@ -1,7 +1,7 @@
 from typing import Optional
 import uuid
 from enum import Enum
-from datetime import date, time
+from datetime import date, time, datetime
 
 
 class Frequencies(Enum):
@@ -30,6 +30,8 @@ class TodoItem:
         priority: Optional[int] = None,
         recurring: bool = False,
         frequency: Optional[str] = None,
+        created_at: datetime = datetime.now(),
+        last_updated: datetime = datetime.now(),
     ):
         self.todo_id = str(uuid.uuid4())
         self.description = description
@@ -40,6 +42,8 @@ class TodoItem:
         self.priority = priority
         self.recurring = recurring
         self.frequency = frequency
+        self.created_at = created_at
+        self.last_updated = last_updated
 
     def __repr__(self):
         status = "COMPLETE" if self.is_complete else "NOT complete"
