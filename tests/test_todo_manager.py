@@ -75,14 +75,14 @@ def test_todo_list_initializes_to_empty():
     """
     manager = TodoManager()
 
-    assert (len(manager.todo_list) == 0, "TodoManager did not initialize to empty")
+    assert len(manager.todo_list) == 0, "TodoManager did not initialize to empty"
 
 
 def test_empty_manager_returns_empty_list():
     """Asserts an empty list is returned when TodoManager.todo_list is empty"""
     manager = TodoManager()
 
-    assert (manager.todo_list == [], "TodoManager returned a value when empty")
+    assert manager.todo_list == [], "TodoManager returned a value when empty"
 
 
 def test_get_all_todo_items_returns_list(todo_test_data: List[TodoItem]):
@@ -91,10 +91,9 @@ def test_get_all_todo_items_returns_list(todo_test_data: List[TodoItem]):
     manager.todo_list = todo_test_data
     todo_list_to_test = manager.get_all_todo_items()
 
-    assert (
-        isinstance(todo_list_to_test, List),
-        "TodoManager did not return data of type List",
-    )
+    assert isinstance(
+        todo_list_to_test, List
+    ), "TodoManager did not return data of type List"
 
 
 def test_get_all_todo_items_returns_todo_item_objects(todo_test_data: List[TodoItem]):
@@ -103,10 +102,9 @@ def test_get_all_todo_items_returns_todo_item_objects(todo_test_data: List[TodoI
     manager.todo_list = todo_test_data
     todo_list_to_test = manager.get_all_todo_items()
 
-    assert (
-        all(isinstance(item, TodoItem) for item in todo_list_to_test),
-        "Every item in list must be a TodoItem instance",
-    )
+    assert all(
+        isinstance(item, TodoItem) for item in todo_list_to_test
+    ), "Every item in list must be a TodoItem instance"
 
 
 def test_get_all_todo_items_returns_correct_count(todo_test_data: List[TodoItem]):
@@ -115,10 +113,9 @@ def test_get_all_todo_items_returns_correct_count(todo_test_data: List[TodoItem]
     manager.todo_list = todo_test_data
     todo_list_to_test = manager.get_all_todo_items()
 
-    assert (
-        len(todo_list_to_test) == len(todo_test_data),
-        "Returned list length must match test fixture length",
-    )
+    assert len(todo_list_to_test) == len(
+        todo_test_data
+    ), "Returned list length must match test fixture length"
 
 
 def test_get_all_todo_items_returns_correct_content(todo_test_data: List[TodoItem]):
@@ -132,9 +129,8 @@ def test_get_all_todo_items_returns_correct_content(todo_test_data: List[TodoIte
     todo_test_data.sort(key=test_sort_key)
 
     assert (
-        todo_list_to_test == todo_test_data,
-        "Each List item must be identical from one List to another",
-    )
+        todo_list_to_test == todo_test_data
+    ), "Each List item must be identical from one List to another"
 
 
 def test_get_todo_item_by_id_returns_todo_item_object(todo_test_data: List[TodoItem]):
@@ -144,10 +140,7 @@ def test_get_todo_item_by_id_returns_todo_item_object(todo_test_data: List[TodoI
     test_todo_item = todo_test_data[0]
     todo_item_to_test = manager.get_todo_item_by_id(test_todo_item.todo_id)
 
-    assert (
-        isinstance(todo_item_to_test, TodoItem),
-        "Item must be of instance TodoItem",
-    )
+    assert isinstance(todo_item_to_test, TodoItem), "Item must be of instance TodoItem"
 
 
 def test_get_todo_item_by_id_returns_correct_object(todo_test_data: List[TodoItem]):
@@ -158,9 +151,8 @@ def test_get_todo_item_by_id_returns_correct_object(todo_test_data: List[TodoIte
     todo_item_to_test = manager.get_todo_item_by_id(test_todo_item.todo_id)
 
     assert (
-        todo_item_to_test == test_todo_item,
-        "Content of one TodoItem to the next must be identical",
-    )
+        todo_item_to_test == test_todo_item
+    ), "Content of one TodoItem to the next must be identical"
 
 
 def test_get_todo_item_by_id_returns_none_from_empty_manager():
@@ -171,9 +163,8 @@ def test_get_todo_item_by_id_returns_none_from_empty_manager():
     manager = TodoManager()
 
     assert (
-        manager.get_todo_item_by_id("Any_ID") is None,
-        "Method must return None when TodoManager.todo_list is empty",
-    )
+        manager.get_todo_item_by_id("Any_ID") is None
+    ), "Method must return None when TodoManager.todo_list is empty"
 
 
 def test_get_todo_item_by_id_returns_none_when_id_non_exists(
@@ -190,6 +181,21 @@ def test_get_todo_item_by_id_returns_none_when_id_non_exists(
     item_to_test = manager.get_todo_item_by_id(non_existent_id)
 
     assert (
-        item_to_test is None,
-        "Method must return None when searching ID that does not exist",
-    )
+        item_to_test is None
+    ), "Method must return None when searching ID that does not exist"
+
+
+def test_add_todo_item_appends_to_empty_list(todo_test_data: List[TodoItem]):
+    manager = TodoManager()
+    item_to_add = todo_test_data[0]
+    manager.add_todo_item(item_to_add)
+
+    assert len(manager.todo_list) == 1
+
+
+def test_add_todo_item_appends_to_non_empty_list(todo_test_data: List[TodoItem]):
+    pass
+
+
+def test_delete_todo_item_removes_one_item(todo_test_data: List[TodoItem]):
+    pass
