@@ -21,7 +21,7 @@ class TodoItem:
 
     def __init__(
         self,
-        todo_id: str,
+        todo_id: Optional[str],
         description: str,
         is_complete: bool = False,
         due_date: Optional[date] = None,
@@ -33,7 +33,7 @@ class TodoItem:
         created_at: datetime = datetime.now(),
         last_updated: datetime = datetime.now(),
     ):
-        self.todo_id = str(uuid.uuid4())
+        self.todo_id = todo_id
         self.description = description
         self.is_complete = is_complete
         self.due_date = due_date
@@ -44,6 +44,10 @@ class TodoItem:
         self.frequency = frequency
         self.created_at = created_at
         self.last_updated = last_updated
+
+    @staticmethod
+    def generate_unique_id():
+        return str(uuid.uuid4())
 
     def __repr__(self):
         status = "COMPLETE" if self.is_complete else "NOT complete"
