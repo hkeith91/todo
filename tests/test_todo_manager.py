@@ -6,10 +6,6 @@ from typing import List
 from datetime import date, time
 
 
-# TODO: Add test to ensure each id is unique
-# TODO: Add failure messages for tests
-
-
 @pytest.fixture
 def todo_test_data() -> List[TodoItem]:
     return [
@@ -251,6 +247,13 @@ def test_add_todo_item_appends_correct_item_to_non_empty_list(
     assert (
         manager.todo_list[-1] == item_to_add
     ), "The tested item did not match the expected value"
+
+
+def test_add_non_unique_id_raises_exception(todo_test_data: List[TodoItem]):
+    manager = TodoManager()
+    manager.todo_list = todo_test_data[:]
+    with pytest.raises(ValueError):
+        manager.add_todo_item(todo_test_data[0])
 
 
 def test_delete_todo_item_removes_one_item(todo_test_data: List[TodoItem]):
