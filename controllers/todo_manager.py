@@ -18,7 +18,7 @@ class TodoManager:
         todo_id_set = {item.todo_id for item in self.todo_list}
         initial_length = len(todo_id_set)
         todo_id_set.add(id_to_check)
-        return len(todo_id_set) == initial_length
+        return len(todo_id_set) == initial_length + 1
 
     def get_all_todo_items(self) -> List[TodoItem]:
         return self.todo_list
