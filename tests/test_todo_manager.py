@@ -263,8 +263,21 @@ def test_delete_todo_item_removes_one_item(todo_test_data: List[TodoItem]):
     manager.todo_list = todo_test_data[:]
     initial_length = len(todo_test_data)
     id_to_find = manager.todo_list[0].todo_id
-    item_to_delete = manager.get_todo_item_by_id(id_to_find)
+    manager.delete_todo_item(id_to_find)
 
     assert (
-        manager.todo_list == initial_length - 1
+        len(manager.todo_list) == initial_length - 1
     ), "Method failed to remove exactly one item"
+
+
+def test_delete_todo_item_removes_correct_item(todo_test_data: List[TodoItem]):
+    """Asserts the method deletes the correct item"""
+    manager = TodoManager()
+    manager.todo_list = todo_test_data[:]
+    item_to_delete = todo_test_data[0]
+    id_to_delete = item_to_delete.todo_id
+    manager.delete_todo_item(id_to_delete)
+
+    assert (
+        item_to_delete not in manager.todo_list
+    ), "The correct item was not deleted properly"
