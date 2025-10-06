@@ -69,6 +69,17 @@ def todo_test_data() -> List[TodoItem]:
     ]
 
 
+@pytest.fixture
+def todo_test_item():
+    return TodoItem(
+        todo_id=str(uuid.uuid4()),
+        description="Study SQL",
+        priority=3,
+        recurring=True,
+        frequency="D",
+    )
+
+
 def test_todo_list_initializes_to_empty():
     """
     Asserts that the TodoManager instance's in memory todo list initializes to an empty list
@@ -83,6 +94,12 @@ def test_empty_manager_returns_empty_list():
     manager = TodoManager()
 
     assert manager.todo_list == [], "TodoManager returned a value when empty"
+
+
+def test_fixture_items_have_unique_ids(todo_test_data: List[TodoItem]):
+    id_set = {item.todo_id for item in todo_test_data}
+
+    assert len(id_set) == len(todo_test_data)
 
 
 def test_get_all_todo_items_returns_list(todo_test_data: List[TodoItem]):
@@ -186,15 +203,54 @@ def test_get_todo_item_by_id_returns_none_when_id_non_exists(
 
 
 def test_add_todo_item_appends_to_empty_list(todo_test_data: List[TodoItem]):
+    """Asserts a TodoItem can be added to an empty list"""
     manager = TodoManager()
     item_to_add = todo_test_data[0]
     manager.add_todo_item(item_to_add)
 
-    assert len(manager.todo_list) == 1
+    assert len(manager.todo_list) == 1, "Failed to add item to empty list"
 
 
-def test_add_todo_item_appends_to_non_empty_list(todo_test_data: List[TodoItem]):
-    pass
+def test_add_todo_item_appends_correct_item_to_empty_list(
+    todo_test_data: List[TodoItem],
+):
+    """Asserts the correct TodoItem is added to an empty list"""
+    manager = TodoManager()
+    item_to_add = todo_test_data[0]
+    manager.add_todo_item(item_to_add)
+
+    assert (
+        manager.todo_list[0] == item_to_add
+    ), "The tested item did not match item that was added"
+
+
+def test_add_todo_item_appends_to_non_empty_list(
+    todo_test_data: List[TodoItem], todo_test_item: TodoItem
+):
+    """Asserts the Manager appends the item to a non-empty list"""
+    manager = TodoManager()
+    manager.todo_list = todo_test_data[:]
+    initial_length = len(manager.todo_list)
+    item_to_add = todo_test_item
+    manager.add_todo_item(item_to_add)
+
+    assert (
+        len(manager.todo_list) == initial_length + 1
+    ), "The number of elements in the list did not match expected value"
+
+
+def test_add_todo_item_appends_correct_item_to_non_empty_list(
+    todo_test_data: List[TodoItem], todo_test_item: TodoItem
+):
+    """Asserts the Manager appends the correct item to a non-empty list"""
+    manager = TodoManager()
+    manager.todo_list = todo_test_data
+    item_to_add = todo_test_item
+    manager.add_todo_item(item_to_add)
+
+    assert (
+        manager.todo_list[-1] == item_to_add
+    ), "The tested item did not match the expected value"
 
 
 def test_delete_todo_item_removes_one_item(todo_test_data: List[TodoItem]):
