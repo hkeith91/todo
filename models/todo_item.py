@@ -15,18 +15,6 @@ class FREQUENCIES(Enum):
     custom = "C"
 
 
-# Attributes the user is allowed to modify
-ALLOWED_ATTRIBUTES = [
-    "description",
-    "is_complete",
-    "due_date",
-    "due_time",
-    "priority",
-    "recurring",
-    "frequency",
-]
-
-
 class TodoItem:
     """
     The standard todo item to populate todo lists
