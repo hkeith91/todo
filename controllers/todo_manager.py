@@ -1,5 +1,4 @@
 # TODO: Edit Todo by id
-# TODO: Delete Todo by id
 # TODO: Sort Todo's by priority
 # TODO: Sort Todo's by date_date
 # TODO: Create multiple lists
