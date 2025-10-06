@@ -250,6 +250,7 @@ def test_add_todo_item_appends_correct_item_to_non_empty_list(
 
 
 def test_add_non_unique_id_raises_exception(todo_test_data: List[TodoItem]):
+    """Asserts the method will raise a ValueError when adding an ID that already exists"""
     manager = TodoManager()
     manager.todo_list = todo_test_data[:]
     with pytest.raises(ValueError):
