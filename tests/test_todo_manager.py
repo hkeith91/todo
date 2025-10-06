@@ -291,3 +291,14 @@ def test_delete_todo_item_removes_correct_item(todo_test_data: List[TodoItem]):
     assert (
         item_to_delete not in manager.todo_list
     ), "The correct item was not deleted properly"
+
+
+def test_delete_todo_item_raises_exception_when_item_non_exists(
+    todo_test_data: List[TodoItem],
+):
+    """Asserts an exception is raised when trying to delete a non-existent item"""
+    manager = TodoManager()
+    manager.todo_list = todo_test_data[:]
+    id_to_delete = "non-existent-id"
+    with pytest.raises(ValueError):
+        manager.delete_todo_item(id_to_delete)
