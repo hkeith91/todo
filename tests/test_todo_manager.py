@@ -257,6 +257,16 @@ def test_add_non_unique_id_raises_exception(todo_test_data: List[TodoItem]):
         manager.add_todo_item(todo_test_data[0])
 
 
+def test_successful_deletion_returns_true(todo_test_data: List[TodoItem]):
+    """Asserts the method returns a value of True upon success"""
+    manager = TodoManager()
+    manager.todo_list = todo_test_data[:]
+    id_to_remove = todo_test_data[0].todo_id
+    return_status = manager.delete_todo_item(id_to_remove)
+
+    assert return_status, "Method did not return True"
+
+
 def test_delete_todo_item_removes_one_item(todo_test_data: List[TodoItem]):
     """Asserts the method deletes only one item"""
     manager = TodoManager()
