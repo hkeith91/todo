@@ -258,4 +258,13 @@ def test_add_non_unique_id_raises_exception(todo_test_data: List[TodoItem]):
 
 
 def test_delete_todo_item_removes_one_item(todo_test_data: List[TodoItem]):
-    pass
+    """Asserts the method deletes only one item"""
+    manager = TodoManager()
+    manager.todo_list = todo_test_data[:]
+    initial_length = len(todo_test_data)
+    id_to_find = manager.todo_list[0].todo_id
+    item_to_delete = manager.get_todo_item_by_id(id_to_find)
+
+    assert (
+        manager.todo_list == initial_length - 1
+    ), "Method failed to remove exactly one item"
