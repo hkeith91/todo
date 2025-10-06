@@ -39,4 +39,10 @@ class TodoManager:
             raise ValueError("Supplied todo_id already exists in Manager list")
 
     def delete_todo_item(self, id_to_delete):
-        pass
+        item_to_delete = self.get_todo_item_by_id(id_to_delete)
+        if item_to_delete is None:
+            raise ValueError("Item to delete not found")
+        else:
+            index = self.todo_list.index(item_to_delete)
+            self.todo_list.pop(index)
+            return True
