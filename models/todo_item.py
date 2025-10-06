@@ -4,7 +4,8 @@ from enum import Enum
 from datetime import date, time, datetime
 
 
-class Frequencies(Enum):
+# Frequencies recurring tasks repeat
+class FREQUENCIES(Enum):
     daily = "D"
     weekly = "W"
     bi_weekly = "BW"
@@ -12,6 +13,18 @@ class Frequencies(Enum):
     bi_monthly = "BM"
     yearly = "Y"
     custom = "C"
+
+
+# Attributes the user is allowed to modify
+ALLOWED_ATTRIBUTES = [
+    "description",
+    "is_complete",
+    "due_date",
+    "due_time",
+    "priority",
+    "recurring",
+    "frequency",
+]
 
 
 class TodoItem:
