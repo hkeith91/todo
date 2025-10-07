@@ -12,7 +12,6 @@ ALLOWED_ATTRIBUTES = [
     "due_date",
     "due_time",
     "priority",
-    "recurring",
     "frequency",
 ]
 
