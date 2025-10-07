@@ -312,4 +312,6 @@ def test_edit_todo_item_does_not_alter_count(todo_test_data: List[TodoItem]):
     id_to_edit = todo_test_data[0]
     manager.edit_todo_item(id_to_edit)
 
-    assert len(manager.todo_list) == initial_length
+    assert (
+        len(manager.todo_list) == initial_length
+    ), "The length of the list containing item to edit must remain unchanged"
