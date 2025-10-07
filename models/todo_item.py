@@ -41,7 +41,7 @@ class TodoItem:
         self.due_time = due_time
         self.past_due = past_due
         self.priority = priority
-        self.recurring = recurring
+        self.is_recurring = recurring
         self.frequency = frequency
         self.created_at = created_at
         self.last_updated = last_updated
@@ -65,7 +65,7 @@ class TodoItem:
             and self.due_time == other.due_time
             and self.past_due == other.past_due
             and self.priority == other.priority
-            and self.recurring == other.recurring
+            and self.is_recurring == other.is_recurring
             and self.frequency == other.frequency
             and self.created_at == other.created_at
             and self.last_updated == other.last_updated
