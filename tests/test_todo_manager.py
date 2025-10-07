@@ -1,6 +1,6 @@
 import pytest
 import uuid
-from controllers.todo_manager import TodoManager
+from models.todo_manager import TodoManager
 from models.todo_item import TodoItem
 from typing import List
 from datetime import date, time
@@ -302,3 +302,14 @@ def test_delete_todo_item_raises_exception_when_item_non_exists(
     id_to_delete = "non-existent-id"
     with pytest.raises(ValueError):
         manager.delete_todo_item(id_to_delete)
+
+
+def test_edit_todo_item_does_not_alter_count(todo_test_data: List[TodoItem]):
+    """Asserts number of items in TodoManager.todo_list is not changes by edit operation"""
+    manager = TodoManager()
+    manager.todo_list = todo_test_data[:]
+    initial_length = len(todo_test_data)
+    id_to_edit = todo_test_data[0]
+    manager.edit_todo_item(id_to_edit)
+
+    assert len(manager.todo_list) == initial_length
