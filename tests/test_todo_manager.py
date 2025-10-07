@@ -116,7 +116,7 @@ def test_fixture_items_have_unique_ids(todo_test_data: List[TodoItem]):
 def test_get_all_todo_items_returns_list(todo_test_data: List[TodoItem]):
     """Asserts that a List object is the return value"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data
+    manager.todo_list = deepcopy(todo_test_data)
     todo_list_to_test = manager.get_all_todo_items()
 
     assert isinstance(
@@ -127,7 +127,7 @@ def test_get_all_todo_items_returns_list(todo_test_data: List[TodoItem]):
 def test_get_all_todo_items_returns_todo_item_objects(todo_test_data: List[TodoItem]):
     """Asserts that returned List items are all instances of TodoItem objects"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data
+    manager.todo_list = deepcopy(todo_test_data)
     todo_list_to_test = manager.get_all_todo_items()
 
     assert all(
@@ -138,7 +138,7 @@ def test_get_all_todo_items_returns_todo_item_objects(todo_test_data: List[TodoI
 def test_get_all_todo_items_returns_correct_count(todo_test_data: List[TodoItem]):
     """Asserts the returned List object contains the correct number or elements"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data
+    manager.todo_list = deepcopy(todo_test_data)
     todo_list_to_test = manager.get_all_todo_items()
 
     assert len(todo_list_to_test) == len(
@@ -149,7 +149,7 @@ def test_get_all_todo_items_returns_correct_count(todo_test_data: List[TodoItem]
 def test_get_all_todo_items_returns_correct_content(todo_test_data: List[TodoItem]):
     """Asserts all elements in returned List are the correct elements"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data
+    manager.todo_list = deepcopy(todo_test_data)
     todo_list_to_test = manager.get_all_todo_items()
     # Sort both lists by id
     test_sort_key = lambda item: item.todo_id
@@ -164,7 +164,7 @@ def test_get_all_todo_items_returns_correct_content(todo_test_data: List[TodoIte
 def test_get_todo_item_by_id_returns_todo_item_object(todo_test_data: List[TodoItem]):
     """Asserts return type is instance of TodoItem object"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data
+    manager.todo_list = deepcopy(todo_test_data)
     test_todo_item = todo_test_data[0]
     todo_item_to_test = manager.get_todo_item_by_id(test_todo_item.todo_id)
 
@@ -174,7 +174,7 @@ def test_get_todo_item_by_id_returns_todo_item_object(todo_test_data: List[TodoI
 def test_get_todo_item_by_id_returns_correct_object(todo_test_data: List[TodoItem]):
     """Asserts the correct TodoItem is returned"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data
+    manager.todo_list = deepcopy(todo_test_data)
     test_todo_item = todo_test_data[0]
     todo_item_to_test = manager.get_todo_item_by_id(test_todo_item.todo_id)
 
@@ -203,7 +203,7 @@ def test_get_todo_item_by_id_returns_none_when_id_non_exists(
     a non-existent ID
     """
     manager = TodoManager()
-    manager.todo_list = todo_test_data
+    manager.todo_list = deepcopy(todo_test_data)
 
     non_existent_id = "Does not exist"
     item_to_test = manager.get_todo_item_by_id(non_existent_id)
@@ -240,7 +240,7 @@ def test_add_todo_item_appends_to_non_empty_list(
 ):
     """Asserts the Manager appends the item to a non-empty list"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data[:]
+    manager.todo_list = deepcopy(todo_test_data)
     initial_length = len(manager.todo_list)
     item_to_add = todo_test_item
     manager.add_todo_item(item_to_add)
@@ -255,7 +255,7 @@ def test_add_todo_item_appends_correct_item_to_non_empty_list(
 ):
     """Asserts the Manager appends the correct item to a non-empty list"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data
+    manager.todo_list = deepcopy(todo_test_data)
     item_to_add = todo_test_item
     manager.add_todo_item(item_to_add)
 
@@ -267,7 +267,7 @@ def test_add_todo_item_appends_correct_item_to_non_empty_list(
 def test_add_non_unique_id_raises_exception(todo_test_data: List[TodoItem]):
     """Asserts the method will raise a ValueError when adding an ID that already exists"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data[:]
+    manager.todo_list = deepcopy(todo_test_data)
     with pytest.raises(ValueError):
         manager.add_todo_item(todo_test_data[0])
 
@@ -275,7 +275,7 @@ def test_add_non_unique_id_raises_exception(todo_test_data: List[TodoItem]):
 def test_successful_deletion_returns_true(todo_test_data: List[TodoItem]):
     """Asserts the method returns a value of True upon success"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data[:]
+    manager.todo_list = deepcopy(todo_test_data)
     id_to_remove = todo_test_data[0].todo_id
     return_status = manager.delete_todo_item(id_to_remove)
 
@@ -285,7 +285,7 @@ def test_successful_deletion_returns_true(todo_test_data: List[TodoItem]):
 def test_delete_todo_item_removes_one_item(todo_test_data: List[TodoItem]):
     """Asserts the method deletes only one item"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data[:]
+    manager.todo_list = deepcopy(todo_test_data)
     initial_length = len(todo_test_data)
     id_to_find = manager.todo_list[0].todo_id
     manager.delete_todo_item(id_to_find)
@@ -298,7 +298,7 @@ def test_delete_todo_item_removes_one_item(todo_test_data: List[TodoItem]):
 def test_delete_todo_item_removes_correct_item(todo_test_data: List[TodoItem]):
     """Asserts the method deletes the correct item"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data[:]
+    manager.todo_list = deepcopy(todo_test_data)
     item_to_delete = todo_test_data[0]
     id_to_delete = item_to_delete.todo_id
     manager.delete_todo_item(id_to_delete)
@@ -313,7 +313,7 @@ def test_delete_todo_item_raises_exception_when_item_non_exists(
 ):
     """Asserts an exception is raised when trying to delete a non-existent item"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data[:]
+    manager.todo_list = deepcopy(todo_test_data)
     id_to_delete = "non-existent-id"
     with pytest.raises(ValueError):
         manager.delete_todo_item(id_to_delete)
@@ -324,7 +324,7 @@ def test_edit_todo_item_does_not_alter_count(
 ):
     """Asserts number of items in TodoManager.todo_list is not changes by edit operation"""
     manager = TodoManager()
-    manager.todo_list = todo_test_data[:]
+    manager.todo_list = deepcopy(todo_test_data)
     initial_length = len(todo_test_data)
     id_to_edit = todo_test_data[0].todo_id
     manager.edit_todo_item(id_to_edit, todo_dto_single_change)
@@ -337,21 +337,34 @@ def test_edit_todo_item_does_not_alter_count(
 def test_edit_todo_item_changes_item_simple(
     todo_test_data: List[TodoItem], todo_dto_single_change: EditTodoItem
 ):
-    """Asserts method will change the value of a single attribute"""
+    """
+    Asserts method will change the value of a single attribute
+    without effecting other list items or incorrect attributes
+    """
     manager = TodoManager()
     manager.todo_list = deepcopy(todo_test_data)
     id_to_edit = todo_test_data[0].todo_id
     manager.edit_todo_item(id_to_edit, todo_dto_single_change)
 
-    assert manager.todo_list[0] != todo_test_data[0]
-    assert manager.todo_list[0].description == todo_dto_single_change.description
+    assert (
+        manager.todo_list[0] != todo_test_data[0]
+    ), "The item to edit remained unchanged"
+    assert (
+        manager.todo_list[0].description == todo_dto_single_change.description
+    ), "The attribute did not match the expected value"
     for i in range(1, len(manager.todo_list)):
-        assert manager.todo_list[i] == todo_test_data[i]
+        assert (
+            manager.todo_list[i] == todo_test_data[i]
+        ), "An incorrect field was changed"
 
 
 def test_edit_todo_item_changes_item_complex(
     todo_test_data: List[TodoItem], todo_dto_multi_change: EditTodoItem
 ):
+    """
+    Asserts method will change the value of multiple attributes without
+    changing other items or incorrect fields
+    """
     manager = TodoManager()
     manager.todo_list = deepcopy(todo_test_data)
     id_to_edit = todo_test_data[0].todo_id
@@ -361,8 +374,14 @@ def test_edit_todo_item_changes_item_complex(
         expected_value = getattr(todo_dto_multi_change, attribute)
         if expected_value is not None:
             actual_value = getattr(manager.todo_list[0], attribute)
-            assert actual_value == expected_value
+            assert (
+                actual_value == expected_value
+            ), f"An attribute '{attribute}' did not match the expected value"
 
-    assert manager.todo_list[0] != todo_test_data[0]
+    assert (
+        manager.todo_list[0] != todo_test_data[0]
+    ), "The item to edit remained unchanged"
     for i in range(1, len(todo_test_data)):
-        assert manager.todo_list[i] == todo_test_data[i]
+        assert (
+            manager.todo_list[i] == todo_test_data[i]
+        ), "An incorrect attribute was changed"
