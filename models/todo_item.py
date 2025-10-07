@@ -70,3 +70,25 @@ class TodoItem:
 
     def __hash__(self):
         return hash(self.todo_id)
+
+
+class EditTodoItem:
+    """
+    TodoItem Data Transfer Object.  Used in Update operations.
+    """
+
+    def __init__(
+        self,
+        description: Optional[str] = None,
+        is_complete: Optional[bool] = None,
+        due_date: Optional[date] = None,
+        due_time: Optional[time] = None,
+        priority: Optional[int] = None,
+        frequency: Optional[str] = None,
+    ):
+        self.description = description
+        self.is_complete = is_complete
+        self.due_date = due_date
+        self.due_time = due_time
+        self.priority = priority
+        self.frequency = frequency
