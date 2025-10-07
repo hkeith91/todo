@@ -1,9 +1,10 @@
 import pytest
 import uuid
-from models.todo_manager import TodoManager
+from models.todo_manager import TodoManager, ALLOWED_ATTRIBUTES
 from models.todo_item import TodoItem, EditTodoItem
 from typing import List
 from datetime import date, time
+from copy import deepcopy
 
 
 @pytest.fixture
@@ -79,6 +80,15 @@ def todo_test_item():
 @pytest.fixture
 def todo_dto_single_change():
     return EditTodoItem(description="Update a single item")
+
+
+@pytest.fixture
+def todo_dto_multi_change():
+    return EditTodoItem(
+        description="Update multiple items",
+        priority=2,
+        frequency="m",
+    )
 
 
 def test_todo_list_initializes_to_empty():
@@ -309,14 +319,50 @@ def test_delete_todo_item_raises_exception_when_item_non_exists(
         manager.delete_todo_item(id_to_delete)
 
 
-def test_edit_todo_item_does_not_alter_count(todo_test_data: List[TodoItem]):
+def test_edit_todo_item_does_not_alter_count(
+    todo_test_data: List[TodoItem], todo_dto_single_change: EditTodoItem
+):
     """Asserts number of items in TodoManager.todo_list is not changes by edit operation"""
     manager = TodoManager()
     manager.todo_list = todo_test_data[:]
     initial_length = len(todo_test_data)
-    id_to_edit = todo_test_data[0]
-    manager.edit_todo_item(id_to_edit)
+    id_to_edit = todo_test_data[0].todo_id
+    manager.edit_todo_item(id_to_edit, todo_dto_single_change)
 
     assert (
         len(manager.todo_list) == initial_length
     ), "The length of the list containing item to edit must remain unchanged"
+
+
+def test_edit_todo_item_changes_item_simple(
+    todo_test_data: List[TodoItem], todo_dto_single_change: EditTodoItem
+):
+    """Asserts method will change the value of a single attribute"""
+    manager = TodoManager()
+    manager.todo_list = deepcopy(todo_test_data)
+    id_to_edit = todo_test_data[0].todo_id
+    manager.edit_todo_item(id_to_edit, todo_dto_single_change)
+
+    assert manager.todo_list[0] != todo_test_data[0]
+    assert manager.todo_list[0].description == todo_dto_single_change.description
+    for i in range(1, len(manager.todo_list)):
+        assert manager.todo_list[i] == todo_test_data[i]
+
+
+def test_edit_todo_item_changes_item_complex(
+    todo_test_data: List[TodoItem], todo_dto_multi_change: EditTodoItem
+):
+    manager = TodoManager()
+    manager.todo_list = deepcopy(todo_test_data)
+    id_to_edit = todo_test_data[0].todo_id
+    manager.edit_todo_item(id_to_edit, todo_dto_multi_change)
+
+    for attribute in ALLOWED_ATTRIBUTES:
+        expected_value = getattr(todo_dto_multi_change, attribute)
+        if expected_value is not None:
+            actual_value = getattr(manager.todo_list[0], attribute)
+            assert actual_value == expected_value
+
+    assert manager.todo_list[0] != todo_test_data[0]
+    for i in range(1, len(todo_test_data)):
+        assert manager.todo_list[i] == todo_test_data[i]
