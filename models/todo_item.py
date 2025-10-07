@@ -59,6 +59,7 @@ class TodoItem:
             return NotImplemented
         return (
             self.todo_id == other.todo_id
+            and self.description == other.description
             and self.is_complete == other.is_complete
             and self.due_date == other.due_date
             and self.due_time == other.due_time
@@ -66,6 +67,8 @@ class TodoItem:
             and self.priority == other.priority
             and self.recurring == other.recurring
             and self.frequency == other.frequency
+            and self.created_at == other.created_at
+            and self.last_updated == other.last_updated
         )
 
     def __hash__(self):
