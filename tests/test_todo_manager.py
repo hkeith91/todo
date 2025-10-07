@@ -1,7 +1,7 @@
 import pytest
 import uuid
 from models.todo_manager import TodoManager
-from models.todo_item import TodoItem
+from models.todo_item import TodoItem, EditTodoItem
 from typing import List
 from datetime import date, time
 
@@ -74,6 +74,11 @@ def todo_test_item():
         recurring=True,
         frequency="D",
     )
+
+
+@pytest.fixture
+def todo_dto_single_change():
+    return EditTodoItem(description="Update a single item")
 
 
 def test_todo_list_initializes_to_empty():
