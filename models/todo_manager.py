@@ -1,9 +1,9 @@
-# TODO: Edit Todo by id
 # TODO: Sort Todo's by priority
 # TODO: Sort Todo's by date_date
 # TODO: Create multiple lists
 from typing import List, Optional
-from models.todo_item import TodoItem
+from models.todo_item import TodoItem, EditTodoItem
+from datetime import datetime
 
 # Attributes the user is allowed to modify
 ALLOWED_ATTRIBUTES = [
@@ -54,13 +54,20 @@ class TodoManager:
             self.todo_list.pop(index)
             return True
 
-    def edit_todo_item(self, id_to_edit, **kwargs):
+    def edit_todo_item(self, id_to_edit: str, edit_todo_item: EditTodoItem):
+        item_has_changed = False
         item_to_edit = self.get_todo_item_by_id(id_to_edit)
         if item_to_edit is None:
             raise ValueError("Item to edit not found")
 
-        if len(kwargs.items()) == 0:
-            raise ValueError("Error!  Must supply at least one field to edit")
+        for attribute_name in ALLOWED_ATTRIBUTES:
+            new_value = getattr(edit_todo_item, attribute_name)
+            if new_value is not None:
+                current_value = getattr(item_to_edit, attribute_name)
+                if current_value != new_value:
+                    setattr(item_to_edit, attribute_name, new_value)
+                    item_has_changed = True
 
-        index = self.todo_list.index(item_to_edit)
-        pass
+        if item_has_changed:
+            item_to_edit.last_updated = datetime.now()
+        return item_to_edit
