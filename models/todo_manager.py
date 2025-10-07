@@ -3,10 +3,18 @@
 # TODO: Sort Todo's by date_date
 # TODO: Create multiple lists
 from typing import List, Optional
-
-from black.comments import children_contains_fmt_on
-
 from models.todo_item import TodoItem
+
+# Attributes the user is allowed to modify
+ALLOWED_ATTRIBUTES = [
+    "description",
+    "is_complete",
+    "due_date",
+    "due_time",
+    "priority",
+    "recurring",
+    "frequency",
+]
 
 
 class TodoManager:
@@ -45,3 +53,14 @@ class TodoManager:
             index = self.todo_list.index(item_to_delete)
             self.todo_list.pop(index)
             return True
+
+    def edit_todo_item(self, id_to_edit, **kwargs):
+        item_to_edit = self.get_todo_item_by_id(id_to_edit)
+        if item_to_edit is None:
+            raise ValueError("Item to edit not found")
+
+        if len(kwargs.items()) == 0:
+            raise ValueError("Error!  Must supply at least one field to edit")
+
+        index = self.todo_list.index(item_to_edit)
+        pass
