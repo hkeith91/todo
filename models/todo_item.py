@@ -1,3 +1,4 @@
+# TODO: Refactor to use @dataclass
 from typing import Optional
 import uuid
 from enum import Enum

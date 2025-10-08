@@ -1,3 +1,5 @@
+# TODO: Add tests for toggle is_recurring
+# TODO: Make past_due dynamic by calculate now and due date
 # TODO: Sort Todo's by priority
 # TODO: Sort Todo's by date_date
 # TODO: Create multiple lists
@@ -20,6 +22,10 @@ class TodoManager:
     def __init__(self):
         self.todo_list = []
 
+    @staticmethod
+    def check_is_recurring(frequency: Optional[str] = None):
+        return frequency is not None
+
     def check_id_is_unique(self, id_to_check: str) -> bool:
         todo_id_set = {item.todo_id for item in self.todo_list}
         initial_length = len(todo_id_set)
@@ -39,6 +45,7 @@ class TodoManager:
             item_to_add.todo_id = TodoItem.generate_unique_id()
 
         if self.check_id_is_unique(item_to_add.todo_id):
+            item_to_add.is_recurring = self.check_is_recurring(item_to_add.frequency)
             self.todo_list.append(item_to_add)
             return item_to_add
         else:
@@ -67,6 +74,7 @@ class TodoManager:
                     setattr(item_to_edit, attribute_name, new_value)
                     item_has_changed = True
 
+        item_to_edit.is_recurring = self.check_is_recurring(item_to_edit.frequency)
         if item_has_changed:
             item_to_edit.last_updated = datetime.now()
         return item_to_edit
