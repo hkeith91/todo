@@ -13,6 +13,7 @@ class FREQUENCIES(Enum):
     bi_monthly = "BM"
     yearly = "Y"
     custom = "C"
+    none = "N"
 
 
 class TodoItem:
