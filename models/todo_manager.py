@@ -1,4 +1,5 @@
 # TODO: Add tests for toggle is_recurring
+# TODO: Refactor to use Dict instead of List
 # TODO: Make past_due dynamic by calculate now and due date
 # TODO: Sort Todo's by priority
 # TODO: Sort Todo's by date_date
