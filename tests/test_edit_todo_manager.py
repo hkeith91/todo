@@ -74,4 +74,4 @@ def test_edit_todo_item_changes_item_complex(
     for i in range(1, len(todo_test_data)):
         assert (
             manager.todo_list[i] == todo_test_data[i]
-        ), "An incorrect attribute was changed"
+        ), f"An incorrect attribute '{manager.todo_list[i]}' was changed"
