@@ -93,3 +93,7 @@ def test_fixture_items_have_unique_ids(todo_test_data: List[TodoItem]):
     id_set = {item.todo_id for item in todo_test_data}
 
     assert len(id_set) == len(todo_test_data)
+
+
+def fixture_list_to_dict(fixture_list: List[TodoItem]):
+    return {item.todo_id: item for item in fixture_list}
