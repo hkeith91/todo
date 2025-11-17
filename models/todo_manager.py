@@ -70,6 +70,7 @@ class TodoManager:
                 if current_value != new_value:
                     setattr(item_to_edit, attribute_name, new_value)
                     item_has_changed = True
+                    break
 
         item_to_edit.is_recurring = self.check_is_recurring(item_to_edit.frequency)
         if item_has_changed:
