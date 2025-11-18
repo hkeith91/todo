@@ -37,7 +37,10 @@ class TodoManager:
         return self.todo_items
 
     def get_todo_item_by_id(self, id_to_search: str) -> Optional[TodoItem]:
-        return self.todo_items[id_to_search]
+        if id_to_search in self.todo_items:
+            return self.todo_items[id_to_search]
+        else:
+            return None
 
     def add_todo_item(self, item_to_add: TodoItem) -> Optional[TodoItem]:
         if item_to_add.todo_id is None:
