@@ -6,6 +6,7 @@ from tests.fixtures import (
     todo_test_data,
     todo_dto_multi_change,
     todo_dto_single_change,
+    fixture_list_to_dict,
 )
 
 
@@ -14,13 +15,13 @@ def test_edit_todo_item_does_not_alter_count(
 ):
     """Asserts number of items in TodoManager.todo_list is not changes by edit operation"""
     manager = TodoManager()
-    manager.todo_list = deepcopy(todo_test_data)
+    manager.todo_items = fixture_list_to_dict(todo_test_data)
     initial_length = len(todo_test_data)
     id_to_edit = todo_test_data[0].todo_id
     manager.edit_todo_item(id_to_edit, todo_dto_single_change)
 
     assert (
-        len(manager.todo_list) == initial_length
+        len(manager.todo_items) == initial_length
     ), "The length of the list containing item to edit must remain unchanged"
 
 
@@ -32,20 +33,24 @@ def test_edit_todo_item_changes_item_simple(
     without effecting other list items or incorrect attributes
     """
     manager = TodoManager()
-    manager.todo_list = deepcopy(todo_test_data)
+    original_items = deepcopy(todo_test_data)
+    original_items = fixture_list_to_dict(original_items)
+    manager.todo_items = fixture_list_to_dict(todo_test_data)
     id_to_edit = todo_test_data[0].todo_id
     manager.edit_todo_item(id_to_edit, todo_dto_single_change)
 
     assert (
-        manager.todo_list[0] != todo_test_data[0]
+        manager.todo_items[id_to_edit] != original_items[id_to_edit]
     ), "The item to edit remained unchanged"
     assert (
-        manager.todo_list[0].description == todo_dto_single_change.description
+        manager.todo_items[id_to_edit].description == todo_dto_single_change.description
     ), "The attribute did not match the expected value"
-    for i in range(1, len(manager.todo_list)):
+    for key in manager.todo_items:
+        if key == id_to_edit:
+            continue
         assert (
-            manager.todo_list[i] == todo_test_data[i]
-        ), "An incorrect field was changed"
+            manager.todo_items[key] == original_items[key]
+        ), "An incorrect item was changed"
 
 
 def test_edit_todo_item_changes_item_complex(
@@ -56,22 +61,26 @@ def test_edit_todo_item_changes_item_complex(
     changing other items or incorrect fields
     """
     manager = TodoManager()
-    manager.todo_list = deepcopy(todo_test_data)
+    original_items = deepcopy(todo_test_data)
+    original_items = fixture_list_to_dict(original_items)
+    manager.todo_items = fixture_list_to_dict(todo_test_data)
     id_to_edit = todo_test_data[0].todo_id
     manager.edit_todo_item(id_to_edit, todo_dto_multi_change)
 
     for attribute in ALLOWED_ATTRIBUTES:
         expected_value = getattr(todo_dto_multi_change, attribute)
         if expected_value is not None:
-            actual_value = getattr(manager.todo_list[0], attribute)
+            actual_value = getattr(manager.todo_items[id_to_edit], attribute)
             assert (
                 actual_value == expected_value
             ), f"An attribute '{attribute}' did not match the expected value"
 
     assert (
-        manager.todo_list[0] != todo_test_data[0]
+        manager.todo_items[id_to_edit] != original_items[id_to_edit]
     ), "The item to edit remained unchanged"
-    for i in range(1, len(todo_test_data)):
+    for key in manager.todo_items:
+        if key == id_to_edit:
+            continue
         assert (
-            manager.todo_list[i] == todo_test_data[i]
-        ), f"An incorrect attribute '{manager.todo_list[i]}' was changed"
+            manager.todo_items[key] == original_items[key]
+        ), f"An incorrect item '{manager.todo_items[key].description}' was changed"
