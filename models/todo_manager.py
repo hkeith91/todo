@@ -4,7 +4,7 @@
 # TODO: Sort Todo's by priority
 # TODO: Sort Todo's by date_date
 # TODO: Create multiple lists
-from typing import List, Optional
+from typing import Dict, Optional
 from models.todo_item import TodoItem, EditTodoItem
 from datetime import datetime
 
@@ -21,25 +21,26 @@ ALLOWED_ATTRIBUTES = [
 
 class TodoManager:
     def __init__(self):
-        self.todo_list = []
+        self.todo_items: Dict[str, TodoItem] = {}
 
     @staticmethod
     def check_is_recurring(frequency: Optional[str] = None):
         return frequency is not None
 
     def check_id_is_unique(self, id_to_check: str) -> bool:
-        todo_id_set = {item.todo_id for item in self.todo_list}
+        todo_id_set = {self.todo_items[item].todo_id for item in self.todo_items}
         initial_length = len(todo_id_set)
         todo_id_set.add(id_to_check)
         return len(todo_id_set) == initial_length + 1
 
-    def get_all_todo_items(self) -> List[TodoItem]:
-        return self.todo_list
+    def get_all_todo_items(self) -> Dict[str, TodoItem]:
+        return self.todo_items
 
     def get_todo_item_by_id(self, id_to_search: str) -> Optional[TodoItem]:
-        return next(
-            (item for item in self.todo_list if item.todo_id == id_to_search), None
-        )
+        if id_to_search in self.todo_items:
+            return self.todo_items[id_to_search]
+        else:
+            return None
 
     def add_todo_item(self, item_to_add: TodoItem) -> Optional[TodoItem]:
         if item_to_add.todo_id is None:
@@ -47,18 +48,16 @@ class TodoManager:
 
         if self.check_id_is_unique(item_to_add.todo_id):
             item_to_add.is_recurring = self.check_is_recurring(item_to_add.frequency)
-            self.todo_list.append(item_to_add)
+            self.todo_items[item_to_add.todo_id] = item_to_add
             return item_to_add
         else:
             raise ValueError("Supplied todo_id already exists in Manager list")
 
     def delete_todo_item(self, id_to_delete):
-        item_to_delete = self.get_todo_item_by_id(id_to_delete)
+        item_to_delete = self.todo_items.pop(id_to_delete, None)
         if item_to_delete is None:
-            raise ValueError("Item to delete not found")
+            raise ValueError("Item to delete does not exist")
         else:
-            index = self.todo_list.index(item_to_delete)
-            self.todo_list.pop(index)
             return True
 
     def edit_todo_item(self, id_to_edit: str, edit_todo_item: EditTodoItem):
