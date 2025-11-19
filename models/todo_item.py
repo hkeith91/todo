@@ -17,7 +17,7 @@ class FREQUENCIES(Enum):
     none = "N"
 
 
-@dataclass()
+@dataclass
 class TodoItem:
     """
     The standard todo item to populate todo lists
@@ -43,7 +43,7 @@ class TodoItem:
         return hash(self.todo_id)
 
 
-@dataclass()
+@dataclass
 class EditTodoItem:
     """
     TodoItem Data Transfer Object.  Used in Update operations.
